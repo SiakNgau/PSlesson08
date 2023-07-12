@@ -15,19 +15,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import kotlinx.coroutines.scheduling.Task;
 
 public class MainActivity extends AppCompatActivity {
 
     EditText etTitle, etSingers, etYear;
     RadioGroup rg;
-    Button btnInsert, btnList, btn1, btn2, btn3, btn4, btn5;
-    ArrayAdapter<String> aaResults;
-    ListView lv;
+    Button btnInsert, btnList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +38,7 @@ public class MainActivity extends AppCompatActivity {
         rg = findViewById(R.id.rgStars);
         btnInsert = findViewById(R.id.btnInsert);
         btnList = findViewById(R.id.btnList);
-        btn1 = findViewById(R.id.radioButton1);
-        btn2 = findViewById(R.id.radioButton2);
-        btn3 = findViewById(R.id.radioButton3);
-        btn4 = findViewById(R.id.radioButton4);
-        btn5 = findViewById(R.id.radioButton5);
-        lv = findViewById(R.id.lv);
+
 
         btnInsert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,26 +62,16 @@ public class MainActivity extends AppCompatActivity {
 
 
                 db.insertTask(etTitle.getText().toString(), etSingers.getText().toString(), etYear.getText().toString(), stars);
-
+                db.close();
+                Toast.makeText(MainActivity.this, "New song inserted successfully", Toast.LENGTH_SHORT).show();
             }
         });
 
         btnList.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Create the DBHelper object, passing in the
-                // activity's Context
-                DBHelper db = new DBHelper(MainActivity.this);
-
-                Intent intent = new Intent(MainActivity.this, songs.class);
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SongList.class);
                 startActivity(intent);
-
-                // Insert a task
-                ArrayList<List> lists = db.getLists();
-                db.close();
-
-                aaResults = new ArrayAdapter(MainActivity.this, android.R.layout.simple_list_item_1, lists);
-                lv.setAdapter(aaResults);
             }
         });
 
