@@ -19,12 +19,15 @@ public class SongList extends AppCompatActivity {
     ArrayAdapter<String> aa;
     ArrayList<songs> arrList;
     boolean filter;
+    CustomAdapter adapter;
 
     @Override
     protected void onResume() {
         super.onResume();
-        aa = new ArrayAdapter(SongList.this, android.R.layout.simple_list_item_1, arrList);
-        lv.setAdapter(aa);
+        //aa = new ArrayAdapter(SongList.this, android.R.layout.simple_list_item_1, arrList);
+        //lv.setAdapter(aa);
+        adapter = new CustomAdapter(this, R.layout.row, arrList);
+        lv.setAdapter(adapter);
     }
 
     @Override
@@ -51,6 +54,7 @@ public class SongList extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         btnfiveStars.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +74,6 @@ public class SongList extends AppCompatActivity {
             }
         });
 
-
-
     }
+
 }
